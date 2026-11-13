@@ -1,0 +1,13 @@
+# Fichiers compiles et dossier de construction
+*.class
+build/
+out/
+bin/
+
+# Dossiers des editeurs et IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
