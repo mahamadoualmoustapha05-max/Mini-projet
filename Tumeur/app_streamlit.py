@@ -4,7 +4,7 @@ Application Streamlit : détection de tumeur sur IRM cérébrale (PROTOTYPE DE R
 
 Fichiers nécessaires dans le même dossier :
     app_streamlit.py   (ce fichier)
-    effnet_b0_best.pt  (modèle sauvegardé par le notebook, section 11)
+    effnet_b0_norm_True_eqres_True.pt
 
 Installation (une seule fois) :
     python -m pip install streamlit torch torchvision pillow matplotlib
@@ -34,7 +34,7 @@ except Exception:                                   # anciennes versions de matp
 
 CROP_THRESHOLD = 20                                 # identique au notebook
 DEFAULT_MODEL_PATH = os.environ.get(
-    "MODEL_PATH", str(Path(__file__).parent / "effnet_b0_best.pt")
+    "MODEL_PATH", str(Path(__file__).parent / "effnet_b0_norm_True_eqres_True.pt")
 )
 
 
@@ -144,8 +144,8 @@ def main():
         show_cam = st.checkbox("Afficher le Grad-CAM", value=True)
 
     if not Path(model_path).exists():
-        st.error(f"Modèle introuvable : `{model_path}`. Place `effnet_b0_best.pt` dans le dossier de l'application "
-                 "(ou indique le chemin dans la barre latérale).")
+        st.error(f"Modèle introuvable : `{model_path}`. Place le fichier du modèle dans le dossier de l'application "
+                 "(ou indique son chemin dans la barre latérale).")
         st.stop()
         return
 
