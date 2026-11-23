@@ -1,0 +1,75 @@
+{
+  "modele": "EfficientNet-B0 (ImageNet) + tête binaire",
+  "seuil": 0.8500000000000002,
+  "validation": {
+    "accuracy": 0.9883,
+    "precision": 0.9824,
+    "recall": 0.9955,
+    "f1": 0.9889,
+    "auc": 0.9987
+  },
+  "test": {
+    "accuracy": {
+      "valeur": 0.9476,
+      "ic95": [
+        0.9015,
+        0.9862
+      ]
+    },
+    "precision": {
+      "valeur": 0.9023,
+      "ic95": [
+        0.7993,
+        0.9782
+      ]
+    },
+    "recall": {
+      "valeur": 0.9957,
+      "ic95": [
+        0.9853,
+        1.0
+      ]
+    },
+    "f1": {
+      "valeur": 0.9467,
+      "ic95": [
+        0.8872,
+        0.9871
+      ]
+    },
+    "auc": {
+      "valeur": 0.9979,
+      "ic95": [
+        0.9944,
+        0.9998
+      ]
+    }
+  },
+  "images_distinctes_approx": 514,
+  "pretraitement": {
+    "crop": true,
+    "normalize_intensity": true,
+    "equalize_resolution": true,
+    "common_res": 160
+  },
+  "avertissement": "Prototype de recherche, pas un dispositif médical.",
+  "controles": {
+    "metadonnees_seules_cv_groupee": 0.881,
+    "indices_pixels_seuls_cv_groupee": 0.877,
+    "auc_test_metadonnees_seules": 0.927,
+    "auc_test_reseau": 0.998,
+    "auc_ponderee_par_tranche_rapport_hl": 1.0
+  },
+  "validation_croisee_5_plis_OOF": {
+    "metrics": {
+      "accuracy": 0.9699799866577719,
+      "precision": 0.9828767123287672,
+      "recall": 0.9566666666666667,
+      "f1": 0.9695945945945946,
+      "auc": 0.9918531375166888
+    },
+    "threshold": 0.8500000000000002,
+    "folds": 5,
+    "grouped": true
+  }
+}

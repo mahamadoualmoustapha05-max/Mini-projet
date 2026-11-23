@@ -1,0 +1,29 @@
+{
+  "prep_dir": "C:\\Users\\Mahamadou\\Documents\\DL\\Tumeur\\data_prepared_i7lv9930",
+  "img_size": 224,
+  "prep_settings": {
+    "crop": true,
+    "normalize_intensity": true,
+    "equalize_resolution": true,
+    "common_res": 160
+  },
+  "hamming_max": 30,
+  "train_mean": [
+    0.2335,
+    0.2335,
+    0.2335
+  ],
+  "train_std": [
+    0.275,
+    0.275,
+    0.275
+  ],
+  "class_to_idx": {
+    "no": 0,
+    "yes": 1
+  },
+  "class_weights": {
+    "no": 1.006,
+    "yes": 0.994
+  }
+}
