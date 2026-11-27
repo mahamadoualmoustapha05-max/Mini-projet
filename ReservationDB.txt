@@ -1,0 +1,68 @@
+-- ============================================================================
+-- BASE DE DONNÉES : ReservationDB (MySQL)
+-- Projet : Gestion des Réservations de Salles - ENSA Safi
+-- ============================================================================
+
+CREATE DATABASE IF NOT EXISTS ReservationDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE ReservationDB;
+
+CREATE TABLE IF NOT EXISTS Utilisateur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    motDePasse VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'USER' -- 'ADMIN' ou 'USER'
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Salle (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL UNIQUE,
+    type VARCHAR(50) NOT NULL, -- 'Amphithéâtre', 'Salle TD', 'Laboratoire'
+    capacite INT NOT NULL,
+    disponible BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Reservation (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idUtilisateur INT NOT NULL,
+    idSalle INT NOT NULL,
+    date DATE NOT NULL,
+    heureDebut TIME NOT NULL,
+    heureFin TIME NOT NULL,
+    motif VARCHAR(255),
+    statut VARCHAR(30) DEFAULT 'CONFIRMEE',
+    FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (idSalle) REFERENCES Salle(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- DONNÉES INITIALES DE TEST
+-- ============================================================================
+
+INSERT INTO Utilisateur (nom, email, motDePasse, role) VALUES
+('Administrateur', 'admin@res.ma', SHA2('admin123', 256), 'ADMIN'),
+('Utilisateur Un', 'user1@res.ma', SHA2('user123', 256), 'USER'),
+('Utilisateur Deux', 'user2@res.ma', SHA2('user123', 256), 'USER'),
+('Utilisateur Trois', 'user3@res.ma', SHA2('user123', 256), 'USER')
+ON DUPLICATE KEY UPDATE nom = VALUES(nom), motDePasse = VALUES(motDePasse), role = VALUES(role);
+
+INSERT INTO Salle (nom, type, capacite, disponible) VALUES
+('Salle A101', 'Cours', 40, TRUE),
+('Labo Info 1', 'Laboratoire', 25, TRUE),
+('Amphi Ibn Tofail', 'Amphithéâtre', 200, TRUE),
+('Salle de réunion R1', 'Réunion', 12, TRUE),
+('Salle B202', 'Cours', 30, FALSE)
+ON DUPLICATE KEY UPDATE type = VALUES(type), capacite = VALUES(capacite), disponible = VALUES(disponible);
+
+INSERT INTO Reservation (idUtilisateur, idSalle, date, heureDebut, heureFin, motif, statut)
+SELECT 2, 1, '2026-12-01', '08:30:00', '10:30:00', 'Cours Java Avancé', 'CONFIRMEE'
+WHERE NOT EXISTS (
+    SELECT 1 FROM Reservation
+    WHERE idUtilisateur = 2 AND idSalle = 1 AND date = '2026-12-01' AND motif = 'Cours Java Avancé'
+);
+INSERT INTO Reservation (idUtilisateur, idSalle, date, heureDebut, heureFin, motif, statut)
+SELECT 3, 3, '2026-12-01', '14:00:00', '16:00:00', 'TD Réseaux & Sockets', 'CONFIRMEE'
+WHERE NOT EXISTS (
+    SELECT 1 FROM Reservation
+    WHERE idUtilisateur = 3 AND idSalle = 3 AND date = '2026-12-01' AND motif = 'TD Réseaux & Sockets'
+);
